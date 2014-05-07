@@ -31,6 +31,7 @@
 
 <script src="../slick.core.js"></script>
 <script src="../slick.grid.js"></script>
+<script src="../plugins/slick.resize.js"></script>
 
 <script>
   var grid;
@@ -45,9 +46,7 @@
 
   var options = {
     enableCellNavigation: true,
-    enableColumnReorder: false,
-	responsiveResize: true,
-	resizeProportion: .75
+    enableColumnReorder: false
   };
 
   $(function () {
@@ -63,7 +62,9 @@
       };
     }
 
-    grid = new Slick.Grid("#myGrid", data, columns, options);
+    grid = new Slick.Grid("#myGrid", data, columns, options);	
+	var resize = new Slick.Plugins.Resize({resizeTo: document.body, proportion: 0.50});
+	grid.registerPlugin(resize);
   })
 </script>
 </body>

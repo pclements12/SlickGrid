@@ -86,7 +86,10 @@ if (typeof Slick === "undefined") {
       multiColumnSort: false,
       defaultFormatter: defaultFormatter,
       forceSyncScrolling: false,
-      addNewRowCssClass: "new-row"
+      addNewRowCssClass: "new-row",
+	  responsiveResize: false,
+	  resizeRelativeTo: document.body,
+	  resizeProportion: 1
     };
 
     var columnDefaults = {
@@ -182,6 +185,8 @@ if (typeof Slick === "undefined") {
     var rowNodeFromLastMouseWheelEvent;  // this node must not be deleted while inertial scrolling
     var zombieRowNodeFromLastMouseWheelEvent;  // node that was hidden instead of getting deleted
 
+	// Responsive resize variables
+	var initialWidths = {};	
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     // Initialization
@@ -332,6 +337,23 @@ if (typeof Slick === "undefined") {
             navigator.userAgent.toLowerCase().match(/macintosh/)) {
           $canvas.bind("mousewheel", handleMouseWheel);
         }
+		
+		if(options.responsiveResize){
+			  options.forceFitColumns = true;
+			 (function(){
+				  for(var i = 0; i < columns.length; i++){
+					initialWidths[columns[i].id] = columns[i].width || null;
+				  }
+				  var windowWidth = document.body.clientWidth;
+				  $(window).on("resize", function(ev){
+					if(document.body.clientWidth != windowWidth){
+					  windowWidth = document.body.clientWidth;
+					  resize();
+					}
+				  });
+			  })();
+			  resize();
+		}
       }
     }
 
@@ -1027,6 +1049,15 @@ if (typeof Slick === "undefined") {
       return columnsById[id];
     }
 
+	function resize(){
+		$container.css("width", options.resizeProportion * $(options.resizeRelativeTo).width());
+		for(var i = 0; i < columns.length; i++){
+			columns[i].width = initialWidths[columns[i].id];
+		}
+		resizeCanvas();
+		autosizeColumns();
+	}
+	
     function autosizeColumns() {
       var i, c,
           widths = [],

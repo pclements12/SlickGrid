@@ -1,25 +1,28 @@
-# Welcome to SlickGrid
+# Auto-Resizing SlickGrid
+This is a fork of SlickGrid to support responsive resizing of the width of grids. 
 
-Find documentation and examples in [the wiki](https://github.com/mleibman/SlickGrid/wiki).
+To see the original go [here](https://github.com/mleibman/SlickGrid)
 
+# Example Usage
 
-**UPDATE:  March 5th, 2014 - I have too many things going on in my life right now to really give SlickGrid support and development the time and attention it deserves.  I am not stopping it, but I will most likely be unresponsive for some time.  Sorry.**
+## As a plugin:
+'''javascript
+   var grid = new Slick.Grid("#myGrid", data, columns, options);	
+   var resize = new Slick.Plugins.Resize({resizeTo: document.body, proportion: 0.50});
+   grid.registerPlugin(resize);
+'''
 
-## SlickGrid is an advanced JavaScript grid/spreadsheet component
+[Source](https://github.com/pclements12/SlickGrid/blob/master/examples/examples-plugin-resize.html)
 
-Some highlights:
+## As a built-in SlickGrid option:
 
-* Adaptive virtual scrolling (handle hundreds of thousands of rows with extreme responsiveness)
-* Extremely fast rendering speed
-* Supports jQuery UI Themes
-* Background post-rendering for richer cells
-* Configurable & customizable
-* Full keyboard navigation
-* Column resize/reorder/show/hide
-* Column autosizing & force-fit
-* Pluggable cell formatters & editors
-* Support for editing and creating new rows.
-* Grouping, filtering, custom aggregators, and more!
-* Advanced detached & multi-field editors with undo/redo support.
-* “GlobalEditorLock” to manage concurrent edits in cases where multiple Views on a page can edit the same data.
-* Support for [millions of rows](http://stackoverflow.com/a/2569488/1269037)
+'''javascript
+ var options = {
+	responsiveResize: true,
+	resizeRelativeTo: $(".parent"),
+	resizeProportion: .75
+  };
+'''
+
+[Source](https://github.com/pclements12/SlickGrid/blob/master/examples/example15-responsive-resize.html)
+
